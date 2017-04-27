@@ -2,11 +2,8 @@ package com.fedexu.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
@@ -57,25 +54,31 @@ public class RemoteSpaceController {
 	//chiamata per ritornare un file specifico
 	@RequestMapping(value = "/getFile", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity getFile(@RequestBody String form) throws IOException {
-		System.out.println(form);
-		FileForm f = gson.fromJson(form, FileForm.class);
-		System.out.println(f.getName());
-		
-		File file = new File("D:\\workspace\\RemoteSpace\\WebContent\\WEB-INF\\webapp\\resources\\" + f.getName());		
-		
+	public ResponseEntity getFile(@RequestBody String form) {
 		ResponseEntity respEntity = null;
-		byte[] reportBytes = null;
-		InputStream inputStream = new FileInputStream(file);
-		byte[] out = org.apache.commons.io.IOUtils.toByteArray(inputStream);
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.add("content-disposition", "attachment; filename=" + f.getName());
-		responseHeaders.add("Content-Type", "application/"+f.getExtension());
-		respEntity = new ResponseEntity(out, responseHeaders, HttpStatus.OK);
+		try{
+			System.out.println(form);
+			FileForm f = gson.fromJson(form, FileForm.class);
+			System.out.println(f.getName());
+			
+			File file = new File("D:\\workspace\\RemoteSpace\\WebContent\\WEB-INF\\webapp\\resources\\" + f.getName());		
+			
+			byte[] reportBytes = null;
+			InputStream inputStream = new FileInputStream(file);
+			byte[] out = org.apache.commons.io.IOUtils.toByteArray(inputStream);
+			HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.add("content-disposition", "attachment; filename=" + f.getName());
+			responseHeaders.add("Content-Type", "application/"+f.getExtension());
+			respEntity = new ResponseEntity(out, responseHeaders, HttpStatus.OK);
+			inputStream.close();
+		}catch (Exception e) {
+			System.out.println("errore IO nel file");
+			e.printStackTrace();
+		}
 		
-		FileUtils.writeByteArrayToFile(new File("D:\\workspace\\RemoteSpace\\WebContent\\WEB-INF\\webapp\\resources\\filetest.zip"), out);
+		if (respEntity == null)
+			respEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
 		
-
 		return respEntity;
 	}
      

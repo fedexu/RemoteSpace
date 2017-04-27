@@ -18,7 +18,6 @@ angular.module('remoteSpace').controller('filesController', function($rootScope,
 		serviceManager.getUserFiles(file).then(function(data) {
 			var file = new Blob([data], { type: 'application/'+$rootScope.iWantToSaveThatFile.extension });
             saveAs(file, $rootScope.iWantToSaveThatFile.name);
-			console.log("dovrebbe essere scaricato");
 		 });
 	};
 	

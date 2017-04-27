@@ -20,6 +20,11 @@
 		"extension":"zip",
 		"size": "100 KB"},
 	{
+		"name": "video.mp4",
+		"type": "F",
+		"extension":"mp4",
+		"size": "100 KB"},
+	{
 		"name": "miaCartella",
 		"type": "D",
 		"extension":"",

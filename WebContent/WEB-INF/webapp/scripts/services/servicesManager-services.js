@@ -30,6 +30,7 @@ angular.module('remoteSpace').service('serviceManager', function ($http) {
 		return 	$http({
 			  method: 'POST',
 			  url: 'http://localhost:8080/RemoteSpace/getFile',
+			  responseType: 'arraybuffer',
 			  data: file
 			}).then(function successCallback(response) {
 				console.log(response);
@@ -37,6 +38,14 @@ angular.module('remoteSpace').service('serviceManager', function ($http) {
 		  }, function errorCallback(response) {
 		    // TODO 
 		  });
+	}
+	
+	this.str2bytes = function(str) {
+	    var bytes = new Uint8Array(str.length);
+	    for (var i=0; i<str.length; i++) {
+	        bytes[i] = str.charCodeAt(i);
+	    }
+	    return bytes;
 	}
 	
 });
