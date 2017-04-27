@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fedexu.modelform.AutenticationForm;
@@ -52,9 +53,9 @@ public class RemoteSpaceController {
 	}
 	
 	//chiamata per ritornare un file specifico
-	@RequestMapping(value = "/getFile", method = RequestMethod.POST)
+	@RequestMapping(value = "/getFile", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity getFile(@RequestBody String form) {
+	public ResponseEntity getFile(@RequestParam(value = "file") String form) {
 		ResponseEntity respEntity = null;
 		try{
 			System.out.println(form);

@@ -14,11 +14,13 @@ angular.module('remoteSpace').controller('filesController', function($rootScope,
 	
 	//funzione di click adibita a chiamare un download di file
 	this.getFile = function(file){
-		$rootScope.iWantToSaveThatFile = file;
-		serviceManager.getUserFiles(file).then(function(data) {
+		//$rootScope.iWantToSaveThatFile = file;
+		    window.location.href = "http://localhost:8080/RemoteSpace/getFile?file="+file;
+		    //window.location.href = "http://localhost:8080/RemoteSpace/getFile?file="+file.name;
+		/*serviceManager.getUserFiles(file).then(function(data) {
 			var file = new Blob([data], { type: 'application/'+$rootScope.iWantToSaveThatFile.extension });
             saveAs(file, $rootScope.iWantToSaveThatFile.name);
-		 });
+		 });*/
 	};
 	
 });

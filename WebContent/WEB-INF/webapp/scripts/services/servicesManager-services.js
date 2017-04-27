@@ -26,14 +26,13 @@ angular.module('remoteSpace').service('serviceManager', function ($http) {
 	}
 	
 	//chiamata al servizio per scaricare un file specifico
-	this.getUserFiles = function(file){
+	this.getUserFiles = function(fileData){
 		return 	$http({
-			  method: 'POST',
+			  method: 'GET',
 			  url: 'http://localhost:8080/RemoteSpace/getFile',
-			  responseType: 'arraybuffer',
-			  data: file
+			  //responseType: 'arraybuffer',  //per passare dei dati nella post, maniera brutta pero
+			  params: {file : fileData}
 			}).then(function successCallback(response) {
-				console.log(response);
 				return response.data;
 		  }, function errorCallback(response) {
 		    // TODO 
