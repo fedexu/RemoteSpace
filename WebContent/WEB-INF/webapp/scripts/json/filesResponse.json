@@ -20,10 +20,10 @@
 		"extension":"zip",
 		"size": "100 KB"},
 	{
-		"name": "video.mp4",
+		"name": "grosso.iso",
 		"type": "F",
-		"extension":"mp4",
-		"size": "100 KB"},
+		"extension":"iso",
+		"size": "3 GB"},
 	{
 		"name": "miaCartella",
 		"type": "D",
