@@ -6,6 +6,7 @@
 
 <!--Call to the AngularJS Framework !-->
 <script src="<c:url value="/resources/scripts/lib/angular.min.js" />"></script>
+<script src="<c:url value="/resources/scripts/lib/FileSaver.min.js" />"></script>
 <script src="<c:url value="/resources/scripts/app.js" />"></script>
 <!--Servizi !-->
 <script	src="<c:url value="/resources/scripts/services/servicesManager-services.js" />"></script>
@@ -13,9 +14,12 @@
 <script	src="<c:url value="/resources/scripts/controllers/hiding-controller.js" />"></script>
 <script	src="<c:url value="/resources/scripts/controllers/login-controller.js" />"></script>
 <script	src="<c:url value="/resources/scripts/controllers/home-controller.js" />"></script>
+<script	src="<c:url value="/resources/scripts/controllers/files-controller.js" />"></script>
+
 <!--Direttive !-->
 <script	src="<c:url value="/resources/scripts/directives/loginpage-directive.js" />"></script>
 <script	src="<c:url value="/resources/scripts/directives/homeSpace-directive.js" />"></script>
+<script	src="<c:url value="/resources/scripts/directives/filesContent-directive.js" />"></script>
 
 </head>
 

@@ -1,0 +1,28 @@
+[
+	{
+		"name": "pippo.txt",
+		"type": "F",
+		"extension":"txt",
+		"size": "100 KB"},
+	{
+		"name": "pippo.zip",
+		"type": "F",
+		"extension":"zip",
+		"size": "100 KB"},		
+	{
+		"name": "esempio.xlsx",
+		"type": "F",
+		"extension":"xlsx",
+		"size": "100 KB"},
+	{
+		"name": "pluto.7z",
+		"type": "F",
+		"extension":"zip",
+		"size": "100 KB"},
+	{
+		"name": "miaCartella",
+		"type": "D",
+		"extension":"",
+		"size": ""}	
+		
+]
