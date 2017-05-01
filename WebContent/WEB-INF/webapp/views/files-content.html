@@ -1,5 +1,6 @@
 <div ng-repeat = "f in files"> 
-	<span ng-if="f.type != 'F'" ng-click="fc.goTo(f.name)">Cartella <a href="">{{f.name}}</a></span>
+	<span ng-if="f.type == 'D'" ng-click="fc.goTo(f.name)">Cartella <a href="">{{f.name}}</a></span>
 	<span ng-if="f.type == 'F'" ng-click="fc.getFile(f)">file <a href="">{{f.name}}</a></span>
+	<span ng-if="f.type == 'R'" ng-click="fc.goTo(f.name)">back <a href="">..</a></span>
 	<span>{{f.size}}</span>
 </div>

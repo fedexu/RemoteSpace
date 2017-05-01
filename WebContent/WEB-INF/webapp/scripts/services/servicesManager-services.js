@@ -14,25 +14,34 @@ angular.module('remoteSpace').service('serviceManager', function ($http) {
 	};
 	
 	//chiamata al servizio per la lista di file/cartelle visualizzabili sul percorso
-	this.getUserFilesList = function(path){
+	this.getFileList = function(path){
 		return 	$http({
 			  method: 'POST',
 			  url: 'http://localhost:8080/RemoteSpace/getFileList',
 			  data: path
 			}).then(function successCallback(response) {
-				console.log(response.data);
 				return response.data;
 		  }, function errorCallback(response) {
 		    // TODO 
 		  });
 	};
 	
-	this.getUserFilePath = function(data){
+	this.getCurrentPath = function(){
 		return 	$http({
 			  method: 'POST',
-			  url: 'http://localhost:8080/RemoteSpace/getUserFilePath'
+			  url: 'http://localhost:8080/RemoteSpace/getCurrentPath'
 			}).then(function successCallback(response) {
-				console.log(response.data);
+				return response.data;
+		  }, function errorCallback(response) {
+		    // TODO 
+		  });
+	};
+	
+	this.getFullPath = function(){
+		return 	$http({
+			  method: 'POST',
+			  url: 'http://localhost:8080/RemoteSpace/getFullPath'
+			}).then(function successCallback(response) {
 				return response.data;
 		  }, function errorCallback(response) {
 		    // TODO 
@@ -41,7 +50,7 @@ angular.module('remoteSpace').service('serviceManager', function ($http) {
 	
 	
 	//chiamata al servizio per scaricare un file specifico
-	this.getUserFiles = function(file){
+	this.getFile = function(file){
 		window.location.href = "http://localhost:8080/RemoteSpace/getFile?file="+JSON.stringify(file);
 	};
 	

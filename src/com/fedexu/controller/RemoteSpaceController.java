@@ -4,10 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.stream.Stream;
+import java.util.Arrays;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,8 +31,8 @@ import com.google.gson.Gson;
 @Scope("session")
 public class RemoteSpaceController {
 	
-	//private String basePath = "D:\\workspace\\RemoteSpace\\WebContent\\WEB-INF\\webapp\\resources\\";
-	private String basePath = "/Users/Federico/Documents/workspace/RemoteSpace/WebContent/WEB-INF/webapp/resources";
+	private String basePath = "D:\\workspace\\RemoteSpace\\WebContent\\WEB-INF\\webapp\\resources";
+	//private String basePath = "/Users/Federico/Documents/workspace/RemoteSpace/WebContent/WEB-INF/webapp/resources";
 	
 	@Autowired
 	private Session session;
@@ -56,7 +54,7 @@ public class RemoteSpaceController {
 		AutenticationForm aF = new AutenticationForm();
 		session.setUsername(l.getUsername());
 		session.setPath(new ArrayList<Path>());
-		session.getPath().add(new Path(""));
+		session.getPath().add(new Path(session.getUsername()));
 		session.setAutenticate(true);
 		aF.setAutentication(session.isAutenticate());
 		
@@ -66,8 +64,7 @@ public class RemoteSpaceController {
 	
 	//chiamata per ritornare un file specifico
 	@RequestMapping(value = "/getFile", method = RequestMethod.GET, produces=MediaType.APPLICATION_OCTET_STREAM_VALUE)
-	public void getUgeFile(@RequestParam(value = "file") String Jfile, HttpServletResponse response) {
-		System.out.println(session.getUsername());
+	public void getFile(@RequestParam(value = "file") String Jfile, HttpServletResponse response) {
 		if(!session.isAutenticate()){
 			return;
 		}
@@ -75,7 +72,7 @@ public class RemoteSpaceController {
 		InputStream is;
 		try {
 			int BYTES_DOWNLOAD = 200;
-			is = new FileInputStream(new File(this.basePath + file.getName()));
+			is = new FileInputStream(new File(this.convertPath(session.getPath()) + file.getName()));
 			response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
 
 			int read = 0;
@@ -97,13 +94,34 @@ public class RemoteSpaceController {
 	@RequestMapping(value = "/getFileList", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public String getFilesList(@RequestBody String requestPath){
-		System.out.println(requestPath);
+		if(!session.isAutenticate()){
+			return "";
+		}
 		
-		System.out.println(this.basePath + requestPath);
-		File folder = new File(this.basePath + requestPath);
+		Path temp = gson.fromJson(requestPath, Path.class);
+		boolean isTheSame = false;
+		if(temp.getDir().equals("return"))
+			session.getPath().remove(session.getPath().size()-1);
+		else{
+			for(Path p : session.getPath())
+				if(p.getDir().equals(temp.getDir()))
+					isTheSame = true;
+			if(!isTheSame)
+				session.getPath().add(temp);
+		}
+			
+		File folder = new File(this.convertPath(session.getPath()));
 		ArrayList<FileForm> out = new ArrayList<FileForm>();
+		if(!(session.getPath().size() == 1)){
+			FileForm ret = new FileForm();
+			ret.setName("return");
+			ret.setExtension("");
+			ret.setSize("");
+			ret.setType("R");
+			out.add(ret);
+		}
+		
 		for (File fileEntry : folder.listFiles()) {
-	        System.out.println(fileEntry.getName());
 	        FileForm f = new FileForm();
 	        f.setName(fileEntry.getName());
 	        if(!fileEntry.isDirectory()){
@@ -122,12 +140,29 @@ public class RemoteSpaceController {
 		return gson.toJson(out);
 	}
 	
-	@RequestMapping(value = "/getUserFilePath", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/getFullPath", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public String getUserFilePath(){
-		System.out.println(gson.toJson(session.getPath()));
-		
+	public String getFullPath(){
+		if(!session.isAutenticate()){
+			return "";
+		}
 		return gson.toJson(session.getPath());
+	}
+	
+	@RequestMapping(value = "/getCurrentPath", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public String getCurrentPath(){
+		if(!session.isAutenticate()){
+			return "";
+		}
+		return gson.toJson(session.getPath().get(session.getPath().size()-1));
+	}
+	
+	public String convertPath(ArrayList<Path> path){
+		String result = this.basePath + "/";
+		for(Path p : path)
+			result = result + p.getDir()+ "/";
+		return result;
 	}
 	
 }
