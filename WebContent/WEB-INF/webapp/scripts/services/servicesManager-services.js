@@ -51,7 +51,7 @@ angular.module('remoteSpace').service('serviceManager', function ($http) {
 	
 	//chiamata al servizio per scaricare un file specifico
 	this.getFile = function(file){
-		window.location.href = "http://localhost:8080/RemoteSpace/getFile?file="+JSON.stringify(file);
+		window.location.href = "http://localhost:8080/RemoteSpace/getFile?file="+encodeURIComponent(JSON.stringify(file));
 	};
 	
 	
